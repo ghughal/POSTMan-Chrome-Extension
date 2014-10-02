@@ -28,6 +28,38 @@ pm.request = {
             this.initFormDataEditor();
             this.initUrlEncodedEditor();
             this.initEditorListeners();
+            this.initCurl();
+            this.initCopyToClipboard();
+        },
+
+        // BG
+        initCurl:function() {
+            $("#headers-actions-curl-create").on("click", function () {
+              pm.request.getCurlCommand();
+            });
+        },
+
+        // BG
+        initCopyToClipboard: function() {
+            $("#copy-to-clipboard").on("click", function () {
+                var text = $("#curl-command-value").text();
+
+                var copyFrom = $('<textarea/>');
+                copyFrom.text(text);
+                $('body').append(copyFrom);
+                copyFrom.select();
+
+                document.execCommand('copy', true);
+                copyFrom.remove();
+
+                $('#curl-dismiss').click();
+                noty({
+                    type:'success',
+                    text:'Copied to Clipboard',
+                    layout:'top',
+                    timeout:750
+                });
+            });
         },
 
         initPreview:function () {
@@ -393,6 +425,57 @@ pm.request = {
             pm.request.isFromCollection = false;
             pm.request.loadRequestInEditor(lastRequestParsed);
         }
+
+        // BG - initialization stuff
+        this.openHeaderEditor();
+        var clickOnCollections = function() {
+            $("a#collections").click();
+        };
+        clickOnCollections();
+        setTimeout(clickOnCollections, 1000);
+        // BG - end
+    },
+
+    // BG
+    getCurlCommand: function() {
+        var url = $('#url').val();
+        var cmd;
+
+        if (!url) {
+            cmd = "No URL provided";
+        } else {
+            var cmd = 'curl -i -X ';
+            cmd += pm.request.method;
+
+            var headers = pm.request.headers;
+            for (var i = 0, count = headers.length; i < count; i++) {
+                var headerKey = headers[i].key;
+                var val = headers[i].value;
+                cmd += ' -H "' + headerKey + ':' + val + '"';
+            }
+
+            if (this.isMethodWithBody(this.method)) {
+                var body = pm.request.getRequestBodyPreview();
+                if (body && body.trim().length > 0) {
+                    var tmp = body.replace(/(\r\n|\n|\r)/gm,"");
+                    tmp = tmp.replace(/'/gm, '\\\'');
+                    console.log('body=' + tmp);
+                    cmd += ' --data \'' + tmp + '\'';
+                }
+            }
+
+            if (url.indexOf('http') !== 0) {
+                url = 'http://' + url;
+            }
+            url = url.replace(/&/gm, '\\&');
+            cmd += ' ' + url;
+        }
+
+        console.log('getCurlCommand: cmd=' + cmd);
+
+        $("#modal-header-curl").modal("show");
+        $("#curl-command-value").text(cmd);
+        $("#modal-header-curl").css('width', '800px');
     },
 
     setHeaderValue:function (key, value) {

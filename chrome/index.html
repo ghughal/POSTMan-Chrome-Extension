@@ -35,6 +35,9 @@
                 <img src="img/logo-grey.png" alt="Postman" height="15px"
                      width="100px"/>
             </a>
+            <span class="label label-method-GET" style="margin-left: 15px;font-size: 15px;padding: 5px;">
+                BG
+            </span>
         </div>
         <div id="external-links">
             <ul>
@@ -81,7 +84,7 @@
         </div>
         <ul id="sidebar-selectors" class="nav nav-pills">
             <li class="active"><a href="#sidebar-section-history" data-id="history" data-toggle="tab">History</a></li>
-            <li><a href="#sidebar-section-collections" data-id="collections" data-toggle="tab">Collections</a></li>
+            <li><a href="#sidebar-section-collections" id="collections" data-id="collections" data-toggle="tab">Collections</a></li>
         </ul>
         <div id="sidebar-section-data">
             <div class="tab-pane active" id="sidebar-section-history">
@@ -444,6 +447,18 @@
                            data-trigger="hover"
                            data-placement="bottom" data-content="Presets let you define groups of headers for quick addition" data-original-title="Header presets"
                            value="Manage presets"/><br/>
+                </div>
+            </div>
+            <div class="keyvaleditor-right">
+                <div id="headers-curl-actions">
+                    <input type="button" id="headers-actions-curl-create"
+                           class="btn"
+                           rel="popover"
+                           data-trigger="hover"
+                           data-placement="bottom"
+                           data-content="Creates curl request based on URL, headers and payload etc."
+                           data-original-title="Curl"
+                           value="Create curl request"/><br/>
                 </div>
             </div>
         </div>
@@ -999,6 +1014,20 @@
         </div>
     </div>
 </div>
+<div id="modal-header-curl" class="modal fade">
+    <div class="modal-header">
+        <a id='curl-dismiss' class="close" data-dismiss="modal">x</a>
+        <h3>Your curl command</h3>
+    </div>
+    <div class="modal-body">
+        <pre id="curl-command-value"></pre>
+        <div class="toolbar">
+            <a id="copy-to-clipboard" class="btn  btn-primary header-curl-copy-command">
+                Copy to Clipboard
+            </a>
+        </div>
+    </div>
+</div>
 <div id="modal-settings" class="modal fade">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
@@ -1293,5 +1322,7 @@
 <script type="text/javascript" src="js/handlebars.js"></script>
 <script type="text/javascript" src="js/templates.js"></script>
 <script type="text/javascript" src="js/requester.js"></script>
+<!--<script type="text/javascript" src="js/jquery.zclip.js"></script>-->
+
 </body>
 </html>
