@@ -1,4 +1,4 @@
-var extension_id = "fdmmgilgnpjigdojojpjoooidkmcomcm";
+var extension_id = "bbmfcdknpbllkogdgflminjlloeklhjg";
 var extension_url = "https://chrome.google.com/webstore/detail/" + extension_id;
 chrome.browserAction.onClicked.addListener(function(a) {
   chrome.management.getAll(function(extensions) {
