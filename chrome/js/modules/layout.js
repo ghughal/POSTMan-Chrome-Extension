@@ -202,6 +202,13 @@ pm.layout = {
         $('a[rel="tooltip"]').tooltip();
         $('input[rel="popover"]').popover();
 
+        $('#collapse-all-collections').on("click", function() {
+            $(".sidebar-collection-head-name").each(function() {
+                var id = $(this).attr('data-id');
+                pm.collections.closeCollection(id);
+            });
+        });
+
         $('#form-add-to-collection').submit(function () {
             pm.collections.addRequestToCollection();
             $('#modal-add-to-collection').modal('hide');

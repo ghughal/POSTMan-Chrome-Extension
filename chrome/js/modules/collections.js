@@ -309,6 +309,15 @@ pm.collections = {
         }
     },
 
+    closeCollection:function (id) {
+        var target = "#collection-requests-" + id;
+        if ($(target).css("display") !== "none") {
+            $(target).slideUp(100, function () {
+                pm.layout.refreshScrollPanes();
+            });
+        }
+    },
+
     toggleRequestList:function (id) {
         var target = "#collection-requests-" + id;
         var label = "#collection-" + id + " .collection-head-actions .label";
