@@ -468,6 +468,8 @@ pm.request = {
                 url = 'http://' + url;
             }
             url = url.replace(/&/gm, '\\&');
+            url = url.replace(/\$/gm, '\\$');
+
             cmd += ' ' + url;
         }
 
